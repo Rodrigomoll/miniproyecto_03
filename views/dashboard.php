@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles/dashboard.css"> <!-- Agrega un archivo CSS para estilizar la tabla si lo deseas -->
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap">
+
+
     <title>Mostrar Información de Usuarios</title>
 </head>
 
 <body>
-    <h1>Información de Usuarios</h1>
     <?php
     session_start();
     require_once "../config/database.php";
@@ -24,7 +26,7 @@
         $query = "SELECT * FROM usuarios WHERE email = '$newUserEmail'";
     } else {
         echo "Usuario no logueado ni creado";
-        exit; 
+        exit;
     }
 
     $result = $mysqli->query($query);
@@ -36,35 +38,45 @@
 
                 <header>
                     <div>
-                        <!-- Aquí puedes poner la imagen en la esquina izquierda -->
-                        <img src="../assets/devchallenges.svg" alt="User Image" height="40">
+                        <img src="../assets/devchallenges.svg" alt="User Image" height="20" style="margin-right: 10px">
                     </div>
                     <div>
                         <!-- Aquí muestra la información del usuario -->
                         <?php if (isset($fila['photo'])) : ?>
-                            <img src="../assets/<?= $fila['photo'] ?>" alt="User Photo" height="30" style="border-radius: 50%;">
+                            <img src="../assets/<?= $fila['photo'] ?>" alt="User Photo" height="40" style="border-radius: 10%;">
                         <?php endif; ?>
                         <span><?= $fila['name'] ?></span>
-                        <!-- Agrega el dropdown para cerrar sesión y volver al login -->
-                        <select onchange="location = this.value;">
+                        <!-- Quité el dropdown de Bootstrap y cambié por un enlace simple -->
+                        <select onchange="location = this.value;" class="arrow-select">
                             <option value="#" selected disabled>Acciones</option>
                             <option value="../scripts_php/logout.php">Cerrar Sesión</option>
                             <!-- Agrega más opciones según tus necesidades -->
                         </select>
                     </div>
                 </header>
+                <div class="infoHeader" style="text-align: center;">
+                    <h1 style="margin-bottom: 5px">Información de Usuarios</h1>
+                    <h4 style="font-weight: normal; margin-top: 0;">Basic info, like your name and photo</h4>
+                </div>
                 <table>
-                    <thead>
+                    <!-- <thead>
                         <tr>
                             <th>Field</th>
                             <th>Value</th>
                         </tr>
-                    </thead>
+                    </thead> -->
                     <tbody>
                         <tr>
-                            <td><?= $fila['name'] ?></td>
-                            <td colspan="2" style="text-align: center;">
-                                <a href="../views/edit_usuario.php?id=<?= $fila['id'] ?>">Editar</a>
+                            <!-- <td><?= $fila['name'] ?></td> -->
+                            <td>
+                                <div>
+                                    <h3>Profile</h3>
+                                    <h4>Some info may be visible to other people</h4>
+                                </div>
+                            </td>
+                            <td style="text-align: center;" colspan="2">
+                                <!-- Cambié el estilo para que se asemeje a un botón -->
+                                <a href="../views/edit_usuario.php?id=<?= $fila['id'] ?>" style=" border: 1px solid #ddd; padding: 10px; color: gray; text-decoration: none; margin-top: 40px; display: inline-block; line-height: 30px; border-radius: 10px">Edit</a>
                             </td>
                         </tr>
                         <?php if (isset($fila['photo'])) : ?>
@@ -92,7 +104,7 @@
                         </tr>
                         <tr>
                             <td>Password</td>
-                            <td><?= $fila['contrasena'] ?></td>
+                            <td><?= str_repeat('*', strlen($fila['contrasena'])) ?></td>
                         </tr>
                     </tbody>
                 </table>

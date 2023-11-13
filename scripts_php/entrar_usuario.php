@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             //Guardar los datos del usuario en una variable de sesión
             session_start();
             $_SESSION["email"] = $userData["email"];
-            header("Location: ../views/dashboard.php");
+            header("Location: /views/dashboard.php");
         }else{
             echo "Contraseña incorrecta";
         }

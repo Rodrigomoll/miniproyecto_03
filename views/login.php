@@ -18,7 +18,7 @@
                 <input type="text" class="formInput" name="email" placeholder="Email">
             </div>
             <div>
-                <input type="text" class="formInput" name="password" placeholder="Password">
+                <input type="password" class="formInput" name="password" placeholder="Password">
             </div>
 
             <button class="loginBoton" type="submit">Login</button>

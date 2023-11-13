@@ -23,13 +23,19 @@ $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
 $queryString = "insert into usuarios (email, contrasena, photo, name, bio, phone)
 values ('$email','$hashedPassword', '$photo', '$name', '$bio','$phone')";
-$mysqli->query($queryString);
 
-echo "El usuario ha sido creado";
+// Ejecutar la consulta
+$result = $mysqli->query($queryString);
 
-//VARIABLE DE SESION
-session_start();
-$_SESSION["newUserEmail"] = $email;
-header("Location: /views/dashboard.php");
+if ($result) {
+    // Si la inserción fue exitosa, establecer la variable de sesión y redirigir
+    session_start();
+    $_SESSION["newUserEmail"] = $email;
+    header("Location: ../views/dashboard.php");
+    exit(); // Asegura que el script se detenga después de la redirección
+} else {
+    // Si la inserción falla, mostrar un mensaje de error
+    echo "Error al crear el usuario: " . $mysqli->error;
+}
 
 ?>

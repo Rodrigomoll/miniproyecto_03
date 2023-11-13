@@ -15,8 +15,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($name !== "" && $bio !== "" && $phone !== "" && $email !== "" && $password !== "") {
         // Aquí deberías realizar cualquier validación adicional que necesites
 
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         // Actualizar la base de datos
-        $updateQuery = "UPDATE usuarios SET name='$name', bio='$bio', phone='$phone', email='$email', contrasena='$password' WHERE id=$id";
+        $updateQuery = "UPDATE usuarios SET name='$name', bio='$bio', phone='$phone', email='$email', contrasena='$hashedPassword' WHERE id=$id";
         if ($_FILES["new_photo"]["size"] > 0) {
             // Si se proporciona una nueva imagen, procesa la carga
             $newPhotoName = $_FILES["new_photo"]["name"];
@@ -24,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $newPhotoPath = "../assets/$newPhotoName";
 
             move_uploaded_file($newPhotoTemp, $newPhotoPath);
-            $updateQuery = "UPDATE usuarios SET name='$name', bio='$bio', phone='$phone', email='$email', contrasena='$password', photo='$newPhotoName' WHERE id=$id";
+            $updateQuery = "UPDATE usuarios SET name='$name', bio='$bio', phone='$phone', email='$email', contrasena='$hashedPassword', photo='$newPhotoName' WHERE id=$id";
         }
         $result = $mysqli->query($updateQuery);
 
